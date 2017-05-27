@@ -1,4 +1,8 @@
 #include "Utils.h"
+#include "Potts.h"
+
+#define SMOOTH 1000
+
 int main(int argc, char** argv)
 {
     if(argc<3)
@@ -15,5 +19,21 @@ int main(int argc, char** argv)
     float KB = 1.0f;
 
 
+    FILE* file = fopen(out_file, "w");
+    if(!file)
+    {
+        fprintf(stderr, "Cannot open file %s", out_file);
+        return 1;
+    }
+    fprintf(file, "N=%d\n%s %s", N, "Temperature", "Abs(Magnetisation)");
+
+    for(float T = T_min; T<T_max; T+=T_delta)
+    {
+        float smoothSum = 0;
+        for(int j=0; j<SMOOTH; j++)
+            smoothSum += simulateChain(KB*T, N);
+        fprintf(file, "\n%f %f", T, smoothSum/SMOOTH);
+    }
+    fclose(file);
     return 0;
 }

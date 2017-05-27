@@ -9,6 +9,7 @@
 
 void printUsage();
 int getRandom(void);
+int getRandomSpin();
 float getRandomFloat(void);
 bool isSuccessful(float probability);
 int saveDataToFile(char* fileName, float* column1, float* column2, int n, char* column1_name, char* column2_name);

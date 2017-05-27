@@ -17,6 +17,11 @@ int getRandom(void)
 	return rand();
 }
 
+int getRandomSpin()
+{
+    return (getRandom()%2)*2-1;
+}
+
 float getRandomFloat(void)
 {
     return ((float)getRandom())/RAND_MAX;
