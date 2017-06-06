@@ -2,6 +2,7 @@
 #include "Potts.h"
 
 #define SMOOTH 1000
+#define N_STATES 3
 
 int main(int argc, char** argv)
 {
@@ -31,7 +32,7 @@ int main(int argc, char** argv)
     {
         float smoothSum = 0;
         for(int j=0; j<SMOOTH; j++)
-            smoothSum += simulateChain(KB*T, N);
+            smoothSum += simulatePottsChain(KB*T, N, N_STATES);
         fprintf(file, "\n%f %f", T, smoothSum/SMOOTH);
     }
     fclose(file);

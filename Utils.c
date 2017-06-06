@@ -27,9 +27,24 @@ float getRandomFloat(void)
     return ((float)getRandom())/RAND_MAX;
 }
 
+int getRandomRange(int a, int b)
+{
+    return getRandom()%(b-a) + a;
+}
+
+float getRandomPottsSpin(int q)
+{
+    return 2*PI/q * getRandomRange(0, q);
+}
+
 bool isSuccessful(float probability)
 {
     return getRandomFloat()<probability;
+}
+
+bool equalFloat(float a, float b)
+{
+    return fabs(a-b)<EQ_EPSILON;
 }
 
 int saveDataToFile(char* fileName, float* column1, float* column2, int n, char* column1_name, char* column2_name)
