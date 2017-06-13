@@ -3,7 +3,7 @@
 
 
 float calculateEnergyDiff(float, float, int);
-float simulateChain(float T, int N);
+float simulateChain(float T, int N, float h);
 float simulatePottsChain(float KB_T, int N, int q);
 
 #endif // POTTS_H_INCLUDED

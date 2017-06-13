@@ -8,11 +8,14 @@ float calculateEnergyDiff(float prevState, float currentState, int q)
     return 1 - JThetaij;
 }
 
-float simulateChain(float KB_T, int N)
+float calculateEnergyDiffIsing(float prevState, float currentState, float h)
 {
-    float exponens = exp(-2/(KB_T));
+    return -(prevState + h)*(-2 * currentState);
+}
 
-    int prevSpin = getRandomFloat() > 0.5 ? 1 : -1;
+float simulateChain(float KB_T, int N, float h)
+{
+    int prevSpin = getRandomSpin();
     int currentSpin;
     int spinSum = 0;
 
@@ -20,13 +23,19 @@ float simulateChain(float KB_T, int N)
     for(int i=1; i<N; i++)
     {
         currentSpin = getRandomSpin();
-        if (currentSpin * prevSpin < 0)
-            currentSpin = getRandomFloat() < exponens ? currentSpin : -currentSpin;
+
+        double energyDiff = calculateEnergyDiffIsing(prevSpin, currentSpin, h);
+        float exponens = exp(-energyDiff/(KB_T));
+
+        if (energyDiff < 0)
+            currentSpin = -currentSpin;
+        else
+            currentSpin = getRandomFloat() < exponens ? -currentSpin : currentSpin;
 
         spinSum += currentSpin;
         prevSpin = currentSpin;
     }
-    return fabs(spinSum)/N;
+    return ((float)spinSum)/N;
 }
 
 float simulatePottsChain(float KB_T, int N, int q)
@@ -48,6 +57,6 @@ float simulatePottsChain(float KB_T, int N, int q)
         spinSum += currentSpin;
         prevSpin = currentSpin;
     }
-    return fabs(spinSum)/N;
+    return ((float)spinSum)/N;
 }
 

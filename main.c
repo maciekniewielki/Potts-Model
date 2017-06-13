@@ -32,9 +32,11 @@ int main(int argc, char** argv)
     {
         float smoothSum = 0;
         for(int j=0; j<SMOOTH; j++)
-            smoothSum += simulatePottsChain(KB*T, N, N_STATES);
+            smoothSum += simulateChain(KB*T, N, 0.2f);
         fprintf(file, "\n%f %f", T, smoothSum/SMOOTH);
     }
     fclose(file);
     return 0;
 }
+//z polem zewnêtrzynym
+//z wartoœci¹ || i bez
