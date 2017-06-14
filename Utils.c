@@ -3,7 +3,7 @@
 
 void printUsage(char* scriptName)
 {
-    printf("Usage: Potts-Model <N> <T_max> [T_min]=0.01 [T_delta]=0.01 [result_file]=result.txt");
+    printf("Usage: Potts-Model <N> <q> <h> [SMOOTH]=100 [T_max]=3 [T_min]=0.01 [T_delta]=0.01 [result_file]=result.txt");
 }
 
 int getRandom(void)

@@ -38,7 +38,7 @@ float simulateChain(float KB_T, int N, float h)
     return ((float)spinSum)/N;
 }
 
-float simulatePottsChain(float KB_T, int N, int q)
+float simulatePottsChain(float KB_T, int N, int q, float h)
 {
     float prevSpin = getRandomPottsSpin(q);
     //printf("Spin: %f\n", prevSpin);

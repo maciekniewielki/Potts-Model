@@ -1,22 +1,22 @@
 #include "Utils.h"
 #include "Potts.h"
 
-#define SMOOTH 1000
-#define N_STATES 3
-
 int main(int argc, char** argv)
 {
-    if(argc<3)
+    if(argc<4)
     {
         printUsage();
         return 1;
     }
     int N = atoi(argv[1]);
-    float T_max = atof(argv[2]);
-    float T_min = argc>3 ? atof(argv[3]) : 0.01f;
-    float T_delta = argc>4 ? atof(argv[4]) : 0.01f;
+    int q = atoi(argv[2]);
+    float h = atof(argv[3]);
+    int SMOOTH = argc>4 ? atoi(argv[4]) : 100;
+    float T_max = argc>5 ? atof(argv[5]) : 3.0f;
+    float T_min = argc>6 ? atof(argv[6]) : 0.01f;
+    float T_delta = argc>7 ? atof(argv[7]) : 0.01f;
     char out_file[100];
-    argc>5 ? strcpy(out_file, argv[5]) : strcpy(out_file, "result.txt");
+    argc>8 ? strcpy(out_file, argv[8]) : strcpy(out_file, "result.txt");
     float KB = 1.0f;
 
 
@@ -26,13 +26,16 @@ int main(int argc, char** argv)
         fprintf(stderr, "Cannot open file %s", out_file);
         return 1;
     }
-    fprintf(file, "N=%d\n%s %s", N, "Temperature", "Abs(Magnetisation)");
+    fprintf(file, "N=%d\tq=%d\th=%f\n%s %s", N, q, h, "Temperature", "Abs(Magnetisation)");
 
     for(float T = T_min; T<T_max; T+=T_delta)
     {
         float smoothSum = 0;
         for(int j=0; j<SMOOTH; j++)
-            smoothSum += simulateChain(KB*T, N, 0.2f);
+            if(q == 2)
+                smoothSum += simulateChain(KB*T, N, h);
+            else
+                smoothSum += simulatePottsChain(KB*T, N, q, h);
         fprintf(file, "\n%f %f", T, smoothSum/SMOOTH);
     }
     fclose(file);
